@@ -1,44 +1,48 @@
 # RandomOffset
 
-A lightweight Unity component that smoothly wiggles a GameObject around its original position in 3D space.  
-You can configure the maximum offset distance, motion speed (frequency), and random seed for reproducible or variable motion. An accompanying editor script provides a “Randomize Seed” button for convenience.
+A lightweight Unity component that smoothly **wiggles** a GameObject around its original position in X/Y/Z using Perlin noise. Configure per-axis **offset distance**, **speed (frequency)**, and an integer **seed** for deterministic or varied motion. Includes an **Inspector button** to randomize seeds (supports **multi-selection**).
 
----
+## ✨ Features
 
-## Features
+* Smooth Perlin-noise motion in **X / Y / Z**
+* Per-axis **Offset Distance**
+* **Offset Speed** (frequency)
+* Integer **Random Seed**
 
-- Random motion in **X / Y / Z** axes around the original position  
-- Adjustable **offset distance** per axis  
-- Adjustable **speed / frequency** of motion  
-- Custom **integer seed** input for reproducible motion  
-- Editor button to auto-randomize seed  
-- Supports multiple selected objects (optional – see usage)
+  * `0` → auto-random each play
+  * non-zero → deterministic pattern
+* **Editor button**: Randomize Seed for one or many selected objects
 
----
+## 📦 Installation
 
-## Installation
+1. Copy `RandomOffset.cs` to `Assets/Scripts/` (or any folder under `Assets/`).
+2. Copy `RandomOffsetEditor.cs` to an `Editor/` subfolder, e.g. `Assets/Scripts/Editor/RandomOffsetEditor.cs`.
+3. Unity will compile automatically.
 
-1. Clone or download this repository into your Unity project under `Assets/…`  
-2. Ensure the folder structure is preserved (especially the `Editor/` folder for editor scripts)  
-3. Let Unity import and compile the scripts  
+## 🚀 Quick Start
 
----
+1. Add **RandomOffset** to any GameObject.
+2. Set:
 
-## Usage
+   * **Offset Distance** (`Vector3`): max local displacement per axis
+   * **Offset Speed** (`float`): how fast it moves
+   * **Random Seed** (`int`): 0 for auto; any positive int for repeatable motion
+3. (Optional) Select one or many objects and click **Randomize Seed** in the Inspector.
 
-### Setup
 
-1. Attach the `RandomOffset` component to the GameObject(s) you want to animate.  
-2. In the Inspector, set:
-   - **Offset Distance** (per axis): how far the object can deviate  
-   - **Offset Speed**: how fast it moves around  
-   - **Random Seed** (integer):  
-     - If `0`, a random seed is generated at runtime  
-     - If nonzero, it produces the same motion pattern each run  
+## 🛠️ Editor Tools
 
-### Editor “Randomize Seed” button
+* **Randomize Seed** button appears when a `RandomOffset` is selected.
+* With multiple GameObjects selected, clicking the button assigns **different** seeds to each (undo supported).
 
-When you select a GameObject with `RandomOffset`, you’ll see a **“Randomize Seed”** button in the Inspector (thanks to the editor script).  
-Clicking it assigns a new random integer seed (e.g. between 1 and 9999), which you can then use for reproducible motion.
+## 💡 Notes & Tips
 
----
+* Motion is applied to **localPosition** (relative to parent).
+  If you prefer world-space, change to `transform.position` in the script.
+* Perlin noise gives **organic wobble**. If you want snappier “jitter,” swap to interval-based `Random.insideUnitSphere` logic.
+* For consistent results across a group, assign distinct integer seeds (e.g., 1, 2, 3…).
+
+## ✅ Compatibility
+
+* Unity 2020+ (tested on recent LTS).
+* Pipeline-agnostic (URP/HDRP/Built-in)—it only moves transforms.
