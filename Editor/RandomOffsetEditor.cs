@@ -20,7 +20,9 @@ public class RandomOffsetEditor : Editor
                 if (comp == null) continue;
 
                 Undo.RecordObject(comp, "Randomize Seed");
-                comp.randomSeed = Random.Range(1, 9999); // safe integer range
+                comp.seed = Random.Range(0, int.MaxValue);
+                comp.InitializeRng();
+                comp.CacheDefaultsIfNeeded();
                 EditorUtility.SetDirty(comp);
             }
         }
